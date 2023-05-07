@@ -1,0 +1,18 @@
+[package]
+name = "ogpurl"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = { version = "0.11.17" }
+tokio = { version = "1.28.0", features = ["full"] }
+
+[[bin]]
+name = "ogpurl"
+path = "./packages/cli/main.rs"
+
+[lib]
+name = "ogpurl_core"
+path = "./packages/core/core.rs"

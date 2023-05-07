@@ -1,0 +1,14 @@
+{
+  "name": "ogpurl",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "textlint": "^13.3.2"
+  }
+}

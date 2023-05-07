@@ -1,0 +1,75 @@
+{
+  "name": "ogpurl-root",
+  "remoteUser": "ogpurl-root",
+  "dockerComposeFile": "../docker-compose.dev.yaml",
+  "service": "root",
+  "postAttachCommand": "npm install",
+  "workspaceFolder": "/workspaces",
+  "overrideCommand": true,
+  "shutdownAction": "none",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "albymor.increment-selection",
+        "bodil.file-browser",
+        "christian-kohler.path-intellisense",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "foxundermoon.shell-format",
+        "Gruntfuggly.todo-tree",
+        "hbenl.vscode-test-explorer",
+        "hediet.vscode-drawio",
+        "irongeek.vscode-env",
+        "kahole.magit",
+        "matklad.rust-analyzer",
+        "mhutchie.git-graph",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "MS-vsliveshare.vsliveshare",
+        "mutantdino.resourcemonitor",
+        "Perkovec.emoji",
+        "redhat.vscode-yaml",
+        "rust-lang.rust-analyzer",
+        "serayuzgur.crates",
+        "shd101wyy.markdown-preview-enhanced",
+        "streetsidesoftware.code-spell-checker",
+        "swellaby.vscode-rust-test-adapter",
+        "taichi.vscode-textlint",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSaveMode": "file",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": true
+        },
+        "files.trimFinalNewlines": true,
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer"
+        },
+        "[markdown]": {
+          "editor.unicodeHighlight.ambiguousCharacters": false,
+          "editor.unicodeHighlight.invisibleCharacters": false,
+          "editor.wordWrap": "on",
+          "editor.quickSuggestions": {
+            "other": "on",
+            "comments": "off",
+            "strings": "off"
+          },
+          "files.trimTrailingWhitespace": false,
+          "cSpell.fixSpellingWithRenameProvider": true,
+          "cSpell.advanced.feature.useReferenceProviderWithRename": true,
+          "cSpell.advanced.feature.useReferenceProviderRemove": "/^#+\\s/"
+        }
+      }
+    }
+  }
+}
