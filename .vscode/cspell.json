@@ -10,6 +10,7 @@
     "clippy",
     "commandhistory",
     "devcontainer",
+    "oglens",
     "ogpurl",
     "reqwest",
     "tada",
