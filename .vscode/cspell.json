@@ -7,10 +7,13 @@
     ".devcontainer"
   ],
   "words": [
+    "cli",
     "clippy",
     "commandhistory",
     "devcontainer",
+    "exitcode",
     "oglens",
+    "OGP",
     "ogpurl",
     "reqwest",
     "tada",
