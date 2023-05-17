@@ -1,5 +1,5 @@
 use clap::Parser;
-use std::collections::HashMap;
+use std::{collections::HashMap, process::exit};
 
 use ogpurl_core::core::{get_og_title, get_ogp};
 
@@ -24,14 +24,10 @@ async fn main() {
         OgpOrOgTitle::OgTitle(
             get_og_title(args.url.as_str())
                 .await
-                .unwrap_or_else(|_| std::process::exit(exitcode::USAGE)), // TODO: エラーハンドリングが雑すぎる
+                .unwrap_or_else(|_| error()),
         )
     } else {
-        OgpOrOgTitle::Ogp(
-            get_ogp(args.url.as_str())
-                .await
-                .unwrap_or_else(|_| std::process::exit(exitcode::USAGE)), // TODO: エラーハンドリングが雑すぎる
-        )
+        OgpOrOgTitle::Ogp(get_ogp(args.url.as_str()).await.unwrap_or_else(|_| error()))
     };
 
     match result {
@@ -40,4 +36,10 @@ async fn main() {
     }
 
     std::process::exit(exitcode::OK);
+}
+
+fn error() -> ! {
+    // TODO: エラーハンドリングが雑すぎる
+    println!("Error occurred.");
+    exit(exitcode::USAGE);
 }
