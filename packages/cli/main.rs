@@ -11,7 +11,7 @@ struct Cli {
     title: bool,
 }
 
-enum HashOrString {
+enum OgpOrOgTitle {
     Ogp(HashMap<String, String>),
     OgTitle(String),
 }
@@ -20,14 +20,14 @@ enum HashOrString {
 async fn main() {
     let args: Cli = Cli::parse();
 
-    let result: HashOrString = if args.title {
-        HashOrString::OgTitle(
+    let result: OgpOrOgTitle = if args.title {
+        OgpOrOgTitle::OgTitle(
             get_og_title(args.url.as_str())
                 .await
                 .unwrap_or_else(|_| std::process::exit(exitcode::USAGE)), // TODO: エラーハンドリングが雑すぎる
         )
     } else {
-        HashOrString::Ogp(
+        OgpOrOgTitle::Ogp(
             get_ogp(args.url.as_str())
                 .await
                 .unwrap_or_else(|_| std::process::exit(exitcode::USAGE)), // TODO: エラーハンドリングが雑すぎる
@@ -35,8 +35,8 @@ async fn main() {
     };
 
     match result {
-        HashOrString::OgTitle(r) => println!("{}", r),
-        HashOrString::Ogp(r) => println!("{:?}", r),
+        OgpOrOgTitle::OgTitle(r) => println!("{}", r),
+        OgpOrOgTitle::Ogp(r) => println!("{:?}", r),
     }
 
     std::process::exit(exitcode::OK);
