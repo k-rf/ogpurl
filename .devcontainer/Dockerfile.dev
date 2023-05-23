@@ -7,7 +7,7 @@ ARG REMOTE_HOME
 # パッケージのインストール
 # ------------------------------------------------------------------------------
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y --no-install-recommends sudo less locales ca-certificates curl gnupg lsb-release tree musl-tools
+    && apt-get install -y --no-install-recommends sudo less locales ca-certificates curl gnupg lsb-release tree musl-tools clang lldb lld
 
 # Docker
 RUN mkdir -p /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -24,7 +24,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && npm install -g npm@latest
 
 # Rust
-RUN rustup component add rustfmt clippy
+RUN rustup target add wasm32-wasi && rustup component add rustfmt clippy
 
 # ユーザー設定
 # ------------------------------------------------------------------------------
@@ -67,3 +67,5 @@ RUN mkdir -p ${REMOTE_HOME}/.config \
     echo '[nodejs]'; \
     echo 'format = "via [⚡ $version](bold green) "'; \
     } >> ${REMOTE_HOME}/.config/starship.toml
+
+RUN cargo install wasm-pack

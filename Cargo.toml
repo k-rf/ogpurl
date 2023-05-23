@@ -6,11 +6,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+reqwest = { version = "0.11.17" }
+scraper = { version = "0.16.0" }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 clap = { version = "4.2.7", features = ["derive"]}
 exitcode = { version = "1.1.2" }
-oglens = { version = "0.1.1" }
-reqwest = { version = "0.11.17" }
-tokio = { version = "1.28.0", features = ["full"] }
+tokio = { version = "1.28.0", features = ["full", "mio"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3.63"
+getrandom = { version = "0.2", features = ["js"] }
+wasm-bindgen = { version = "0.2.86" }
+wasm-bindgen-futures = { version = "0.4.36" }
 
 [[bin]]
 name = "ogpurl"
@@ -19,3 +27,4 @@ path = "./packages/cli/main.rs"
 [lib]
 name = "ogpurl_core"
 path = "./packages/core/core.rs"
+crate-type = ["cdylib", "rlib"]

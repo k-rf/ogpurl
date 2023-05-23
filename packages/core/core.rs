@@ -1,20 +1,58 @@
 pub mod core {
     use std::{collections::HashMap, error::Error};
 
-    use oglens::ogp::Ogp;
     use reqwest;
+    use scraper::{Html, Selector};
+
+    #[cfg(target_arch = "wasm32")]
+    use wasm_bindgen::prelude::*;
+    #[cfg(target_arch = "wasm32")]
+    use wasm_bindgen_futures::JsFuture;
 
     pub async fn get_ogp(url: &str) -> Result<HashMap<String, String>, Box<dyn Error>> {
         let text: String = reqwest::get(url).await?.text().await?;
+        let document = Html::parse_document(&text);
+        let meta_selectors: Vec<Selector> = vec![
+            String::from("title"),
+            String::from("type"),
+            String::from("image"),
+            String::from("url"),
+        ]
+        .iter()
+        .map(|e| {
+            let s = format!("{}{}{}", "meta[property=\"og:", e, "\"]");
+            Selector::parse(&s).unwrap()
+        })
+        .collect();
 
-        // NOTE: デフォルトで `og:*` 系を取得するようになっているため、 `prefix_list` は空でよい
-        let ogp: Ogp = Ogp::from(text.as_str(), vec![])?;
+        let res =
+            meta_selectors
+                .iter()
+                .fold(HashMap::<String, String>::new(), |mut acc, selector| {
+                    if let Some(res) = document.select(&selector).next() {
+                        acc.insert(
+                            res.value().attr("property").unwrap().to_string(),
+                            res.value().attr("content").unwrap().to_string(),
+                        );
+                    }
 
-        Ok(ogp.items.into_iter().collect())
+                    acc
+                });
+
+        Ok(res)
     }
 
     pub async fn get_og_title(url: &str) -> Result<String, Box<dyn Error>> {
         Ok(get_ogp(url).await?.get("og:title").unwrap().into())
+    }
+
+    #[cfg(target_arch = "wasm32")]
+    #[wasm_bindgen]
+    pub async fn get_og_title_wasm(url: &str) -> Result<String, JsValue> {
+        let promise = js_sys::Promise::resolve(&(get_og_title(url).await.unwrap()).into());
+        let result = JsFuture::from(promise).await?.as_string().unwrap();
+
+        Ok(result)
     }
 }
 

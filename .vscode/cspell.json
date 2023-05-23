@@ -1,12 +1,9 @@
 {
   "version": "0.2",
-  "gitignoreRoot": [
-    ".."
-  ],
-  "ignorePaths": [
-    ".devcontainer"
-  ],
+  "gitignoreRoot": [".."],
+  "ignorePaths": [".devcontainer"],
   "words": [
+    "bindgen",
     "cli",
     "clippy",
     "commandhistory",
